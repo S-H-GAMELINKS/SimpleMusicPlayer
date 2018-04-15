@@ -6,6 +6,9 @@
 #define CVUI_IMPLEMENTATION
 #include "cvui.h"
 
+// Hide Console Window
+#pragma comment(linker, "/subsystem:\"windows\" /entry:\"mainCRTStartup\"")
+
 constexpr const char* WindowName = "Simple Music Player";
 
 void DrawButton(cv::Mat frame) {
