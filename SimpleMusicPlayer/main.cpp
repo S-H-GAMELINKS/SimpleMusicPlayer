@@ -55,9 +55,15 @@ std::array<int, MaterialMax> LoadMusic() {
 	return MusicContainer;
 }
 
-void DrawButton(cv::Mat frame, std::int32_t Num, std::array<int, MaterialMax> MusicContainer) {
+int DrawButton(cv::Mat frame, std::int32_t Num, std::array<int, MaterialMax> MusicContainer) {
 
 	if (cvui::button(frame, 20, 40, "Prev")) {
+		if (Num < 0)
+			Num = 0;
+		else
+			Num--;
+
+		return Num;
 	}
 
 	if (cvui::button(frame, 80, 40, "Play")) {
@@ -65,9 +71,16 @@ void DrawButton(cv::Mat frame, std::int32_t Num, std::array<int, MaterialMax> Mu
 	}
 
 	if (cvui::button(frame, 140, 40, "Stop")) {
+		DxLib::StopSoundMem(MusicContainer[Num]);
 	}
 
 	if (cvui::button(frame, 200, 40, "Next")) {
+		if (Num > MaterialMax)
+			Num = MaterialMax;
+		else
+			Num++;
+
+		return Num;
 	}
 }
 
