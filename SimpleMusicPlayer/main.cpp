@@ -58,30 +58,42 @@ std::array<int, MaterialMax> LoadMusic() {
 int DrawButton(cv::Mat frame, std::int32_t Num, std::array<int, MaterialMax> MusicContainer) {
 
 	if (cvui::button(frame, 20, 40, "Prev")) {
-		if (Num < 0)
+		if (Num == 0)
 			Num = 0;
 		else
 			Num--;
+
+		DxLib::StopSoundMem(MusicContainer[Num + 1]);
+		DxLib::PlaySoundMem(MusicContainer[Num], DX_PLAYTYPE_BACK);
 
 		return Num;
 	}
 
 	if (cvui::button(frame, 80, 40, "Play")) {
 		DxLib::PlaySoundMem(MusicContainer[Num], DX_PLAYTYPE_BACK);
+
+		return Num;
 	}
 
 	if (cvui::button(frame, 140, 40, "Stop")) {
 		DxLib::StopSoundMem(MusicContainer[Num]);
+
+		return Num;
 	}
 
 	if (cvui::button(frame, 200, 40, "Next")) {
-		if (Num > MaterialMax)
+		if (Num == MaterialMax)
 			Num = MaterialMax;
 		else
 			Num++;
 
+		DxLib::StopSoundMem(MusicContainer[Num - 1]);
+		DxLib::PlaySoundMem(MusicContainer[Num], DX_PLAYTYPE_BACK);
+
 		return Num;
 	}
+
+	return Num;
 }
 
 double VolumeTrackBar(cv::Mat frame, double value) {
@@ -115,9 +127,16 @@ int main(int argc, const char *argv[])
 		// Fill the frame with a nice color
 		frame = cv::Scalar(49, 52, 49);
 
-		DrawButton(frame, Num, MusicContainer);
+		Num = DrawButton(frame, Num, MusicContainer);
 
 		value = VolumeTrackBar(frame, value);
+
+		ChangeVolumeSoundMem(255 * static_cast<int>(value) / 100, MusicContainer[Num]);
+
+		if (DxLib::CheckSoundMem(MusicContainer[Num]) == 1) {
+			cvui::text(frame, 40, 150, "Now Playing Number is");
+			cvui::text(frame, 190, 150, std::to_string(Num));
+		}
 
 		// Update cvui stuff and show everything on the screen
 		cvui::imshow(WindowName, frame);
