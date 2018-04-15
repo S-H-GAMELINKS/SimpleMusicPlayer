@@ -8,6 +8,21 @@
 
 constexpr const char* WindowName = "Simple Music Player";
 
+void DrawButton(cv::Mat frame) {
+
+	if (cvui::button(frame, 20, 40, "Prev")) {
+	}
+
+	if (cvui::button(frame, 80, 40, "Play")) {
+	}
+
+	if (cvui::button(frame, 140, 40, "Stop")) {
+	}
+
+	if (cvui::button(frame, 200, 40, "Next")) {
+	}
+}
+
 int main(int argc, const char *argv[])
 {
 	// Create a frame where components will be rendered to.
@@ -19,6 +34,8 @@ int main(int argc, const char *argv[])
 	while (true) {
 		// Fill the frame with a nice color
 		frame = cv::Scalar(49, 52, 49);
+
+		DrawButton(frame);
 
 		// Update cvui stuff and show everything on the screen
 		cvui::imshow(WindowName, frame);
