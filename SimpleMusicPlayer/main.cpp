@@ -26,7 +26,7 @@ void DrawButton(cv::Mat frame) {
 int main(int argc, const char *argv[])
 {
 	// Create a frame where components will be rendered to.
-	cv::Mat frame = cv::Mat(200, 300, CV_8UC3);
+	cv::Mat frame = cv::Mat(180, 280, CV_8UC3);
 
 	// Init cvui and tell it to create a OpenCV window, i.e. cv::namedWindow(WINDOW_NAME).
 	cvui::init(WindowName);
