@@ -55,12 +55,13 @@ std::array<int, MaterialMax> LoadMusic() {
 	return MusicContainer;
 }
 
-void DrawButton(cv::Mat frame) {
+void DrawButton(cv::Mat frame, std::int32_t Num, std::array<int, MaterialMax> MusicContainer) {
 
 	if (cvui::button(frame, 20, 40, "Prev")) {
 	}
 
 	if (cvui::button(frame, 80, 40, "Play")) {
+		DxLib::PlaySoundMem(MusicContainer[Num], DX_PLAYTYPE_BACK);
 	}
 
 	if (cvui::button(frame, 140, 40, "Stop")) {
@@ -95,11 +96,13 @@ int main(int argc, const char *argv[])
 
 	const std::array<int, MaterialMax> MusicContainer = LoadMusic();
 
+	std::int32_t Num = 0;
+
 	while (true) {
 		// Fill the frame with a nice color
 		frame = cv::Scalar(49, 52, 49);
 
-		DrawButton(frame);
+		DrawButton(frame, Num, MusicContainer);
 
 		value = VolumeTrackBar(frame, value);
 
