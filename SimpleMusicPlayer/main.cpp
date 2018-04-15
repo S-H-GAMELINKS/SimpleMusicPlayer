@@ -1,3 +1,5 @@
+#include "DxLib.h"
+
 #include <opencv2/opencv.hpp>
 #include <string>
 
@@ -33,6 +35,14 @@ double VolumeTrackBar(cv::Mat frame, double value) {
 
 int main(int argc, const char *argv[])
 {
+
+	DxLib::SetNotWinFlag(TRUE);	// ウインドウ関連の処理を行わない
+
+	if (DxLib::DxLib_Init() == -1)    // ＤＸライブラリ初期化処理
+	{
+		return -1;    // エラーが起きたら直ちに終了
+	}
+
 	// Create a frame where components will be rendered to.
 	cv::Mat frame = cv::Mat(180, 280, CV_8UC3);
 
@@ -56,6 +66,8 @@ int main(int argc, const char *argv[])
 			break;
 		}
 	}
+
+	DxLib::DxLib_End();        // ＤＸライブラリ使用の終了処理
 
 	return 0;
 }
