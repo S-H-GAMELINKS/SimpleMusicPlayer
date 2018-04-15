@@ -26,6 +26,11 @@ void DrawButton(cv::Mat frame) {
 	}
 }
 
+double VolumeTrackBar(cv::Mat frame, double value) {
+	cvui::trackbar(frame, 40, 70, 220, &value, (double)0.0, (double)100.0);
+	return value;
+}
+
 int main(int argc, const char *argv[])
 {
 	// Create a frame where components will be rendered to.
@@ -34,11 +39,15 @@ int main(int argc, const char *argv[])
 	// Init cvui and tell it to create a OpenCV window, i.e. cv::namedWindow(WINDOW_NAME).
 	cvui::init(WindowName);
 
+	double value = 100.0;
+
 	while (true) {
 		// Fill the frame with a nice color
 		frame = cv::Scalar(49, 52, 49);
 
 		DrawButton(frame);
+
+		value = VolumeTrackBar(frame, value);
 
 		// Update cvui stuff and show everything on the screen
 		cvui::imshow(WindowName, frame);
