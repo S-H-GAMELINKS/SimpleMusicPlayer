@@ -48,6 +48,9 @@ namespace {
 
 std::array<int, MaterialMax> LoadMusic() {
 
+	//サウンドデータの読み込み形式
+	DxLib::SetCreateSoundDataType(DX_SOUNDDATATYPE_MEMPRESS);
+
 	std::array<int, MaterialMax> MusicContainer;
 
 	MaterialLoadTemplate(MusicContainer, "mp3/", ".mp3", [](const std::string& Path) {return DxLib::LoadSoundMem(Path.c_str()); });
