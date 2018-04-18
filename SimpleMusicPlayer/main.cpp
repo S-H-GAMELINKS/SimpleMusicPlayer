@@ -1,5 +1,11 @@
+// Simple Music Player
+// coding by S.H. (GAMELINKS)
+// This source code license is MIT, see the license
+
+// include DxLib
 #include "DxLib.h"
 
+// include openCV and standard library
 #include <opencv2/opencv.hpp>
 #include <string>
 #include <array>
@@ -15,10 +21,13 @@
 // Hide Console Window
 #pragma comment(linker, "/subsystem:\"windows\" /entry:\"mainCRTStartup\"")
 
+// Set Software Title
 constexpr const char* WindowName = "Simple Music Player";
 
+// loading music max 
 constexpr int MaterialMax = 99;
 
+// music material load func's
 namespace {
 
 	//各種素材ファイル確認関数
@@ -46,6 +55,7 @@ namespace {
 	}
 }
 
+// loading music
 std::array<int, MaterialMax> LoadMusic() {
 
 	//サウンドデータの読み込み形式
@@ -58,6 +68,7 @@ std::array<int, MaterialMax> LoadMusic() {
 	return MusicContainer;
 }
 
+// Draw button
 int DrawButton(cv::Mat frame, std::int32_t Num, std::array<int, MaterialMax> MusicContainer) {
 
 	if (cvui::button(frame, 20, 40, "Prev")) {
@@ -99,6 +110,7 @@ int DrawButton(cv::Mat frame, std::int32_t Num, std::array<int, MaterialMax> Mus
 	return Num;
 }
 
+// Change Volumes
 double VolumeTrackBar(cv::Mat frame, double value) {
 	cvui::trackbar(frame, 40, 70, 220, &value, (double)0.0, (double)100.0);
 	return value;
@@ -120,6 +132,7 @@ int main(int argc, const char *argv[])
 	// Init cvui and tell it to create a OpenCV window, i.e. cv::namedWindow(WINDOW_NAME).
 	cvui::init(WindowName);
 
+	// Set Volumnes
 	double value = 100.0;
 
 	const std::array<int, MaterialMax> MusicContainer = LoadMusic();
