@@ -50,7 +50,7 @@ std::array<int, MaterialMax> LoadMusic() {
 
 	std::array<int, MaterialMax> MusicContainer;
 
-	MaterialLoadTemplate(MusicContainer, "mp3/bgm", ".mp3", [](const std::string& Path) {return DxLib::LoadSoundMem(Path.c_str()); });
+	MaterialLoadTemplate(MusicContainer, "mp3/", ".mp3", [](const std::string& Path) {return DxLib::LoadSoundMem(Path.c_str()); });
 
 	return MusicContainer;
 }
