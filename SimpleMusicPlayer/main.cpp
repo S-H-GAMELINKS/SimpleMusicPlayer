@@ -152,7 +152,7 @@ int main(int argc, const char *argv[])
 
 		if (DxLib::CheckSoundMem(MusicContainer[Num]) == 1) {
 			cvui::text(frame, 40, 150, "Now Playing Number is");
-			cvui::text(frame, 190, 150, std::to_string(Num));
+			cvui::text(frame, 190, 150, Container[Num]);
 		}
 
 		// Update cvui stuff and show everything on the screen
