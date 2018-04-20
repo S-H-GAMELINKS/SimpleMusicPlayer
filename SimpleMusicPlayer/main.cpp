@@ -14,7 +14,7 @@ namespace fs = boost::filesystem;
 // include openCV and standard library
 #include <opencv2/opencv.hpp>
 #include <string>
-#include <array>
+#include <vector>
 #include <fstream>
 #include <sstream>
 #include <iomanip>
@@ -30,13 +30,10 @@ namespace fs = boost::filesystem;
 // Set Software Title
 constexpr const char* WindowName = "Simple Music Player";
 
-// loading music max 
-constexpr int MaterialMax = 99;
-
 //全ファイル名描画関数
-std::array<std::string, MaterialMax> AllFilePath() {
+std::vector<std::string> AllFilePath() {
 
-	std::array<std::string, MaterialMax> Container;
+	std::vector<std::string> Container;
 
 	std::string Path = "mp3", str = "/";
 
@@ -47,7 +44,7 @@ std::array<std::string, MaterialMax> AllFilePath() {
 	BOOST_FOREACH(const fs::path& p, std::make_pair(fs::directory_iterator(path),
 		fs::directory_iterator())) {
 		if (!fs::is_directory(p)) {
-			Container[i] = Path + str + p.filename().string();
+			Container.emplace_back(std::move(Path + str + p.filename().string()));
 			std::cout << p.filename() << std::endl;
 			i++;
 		}
@@ -57,21 +54,21 @@ std::array<std::string, MaterialMax> AllFilePath() {
 }
 
 // loading music
-std::array<int, MaterialMax> LoadMusic(const std::array<std::string, MaterialMax> Container) {
+std::vector<int> LoadMusic(const std::vector<std::string> Container) {
 
 	//サウンドデータの読み込み形式
 	DxLib::SetCreateSoundDataType(DX_SOUNDDATATYPE_MEMPRESS);
 
-	std::array<int, MaterialMax> MusicContainer;
-
-	for (std::size_t i = 0; i < MaterialMax; i++)
-		MusicContainer[i] = DxLib::LoadSoundMem(Container[i].c_str());
+	std::vector<int> MusicContainer;
+	
+	for (auto&& c : Container)
+		MusicContainer.emplace_back(std::move(DxLib::LoadSoundMem(c.c_str())));
 
 	return MusicContainer;
 }
 
 // Draw button
-int DrawButton(cv::Mat frame, std::int32_t Num, std::array<int, MaterialMax> MusicContainer) {
+int DrawButton(cv::Mat frame, std::int32_t Num, std::vector<int> MusicContainer) {
 
 	if (cvui::button(frame, 20, 40, "Prev")) {
 		if (Num == 0)
@@ -98,8 +95,8 @@ int DrawButton(cv::Mat frame, std::int32_t Num, std::array<int, MaterialMax> Mus
 	}
 
 	if (cvui::button(frame, 200, 40, "Next")) {
-		if (Num == MaterialMax)
-			Num = MaterialMax;
+		if (Num == MusicContainer.size())
+			Num = MusicContainer.size();
 		else
 			Num++;
 
@@ -128,7 +125,7 @@ int main(int argc, const char *argv[])
 		return -1;    // エラーが起きたら直ちに終了
 	}
 
-	std::array<std::string, MaterialMax> Container = AllFilePath();
+	std::vector<std::string> Container = AllFilePath();
 
 	// Create a frame where components will be rendered to.
 	cv::Mat frame = cv::Mat(180, 280, CV_8UC3);
@@ -139,7 +136,7 @@ int main(int argc, const char *argv[])
 	// Set Volumnes
 	double value = 100.0;
 
-	const std::array<int, MaterialMax> MusicContainer = LoadMusic(Container);
+	const std::vector<int> MusicContainer = LoadMusic(Container);
 
 	std::int32_t Num = 0;
 
