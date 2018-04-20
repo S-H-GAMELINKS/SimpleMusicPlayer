@@ -5,6 +5,12 @@
 // include DxLib
 #include "DxLib.h"
 
+// include Boost library
+#include <boost/filesystem.hpp>
+#include <boost/foreach.hpp>
+
+namespace fs = boost::filesystem;
+
 // include openCV and standard library
 #include <opencv2/opencv.hpp>
 #include <string>
@@ -19,13 +25,36 @@
 #include "cvui.h"
 
 // Hide Console Window
-#pragma comment(linker, "/subsystem:\"windows\" /entry:\"mainCRTStartup\"")
+//#pragma comment(linker, "/subsystem:\"windows\" /entry:\"mainCRTStartup\"")
 
 // Set Software Title
 constexpr const char* WindowName = "Simple Music Player";
 
 // loading music max 
 constexpr int MaterialMax = 99;
+
+//全ファイル名描画関数
+std::array<std::string, MaterialMax> AllFilePath() {
+
+	std::array<std::string, MaterialMax> Container;
+
+	std::string Path = "mp3", str = "/";
+
+	const fs::path path(Path);
+
+	std::int32_t i = 0;
+
+	BOOST_FOREACH(const fs::path& p, std::make_pair(fs::directory_iterator(path),
+		fs::directory_iterator())) {
+		if (!fs::is_directory(p)) {
+			Container[i] = Path + str + p.filename().string();
+			std::cout << p.filename() << std::endl;
+			i++;
+		}
+	}
+
+	return Container;
+}
 
 // music material load func's
 namespace {
@@ -56,14 +85,15 @@ namespace {
 }
 
 // loading music
-std::array<int, MaterialMax> LoadMusic() {
+std::array<int, MaterialMax> LoadMusic(const std::array<std::string, MaterialMax> Container) {
 
 	//サウンドデータの読み込み形式
 	DxLib::SetCreateSoundDataType(DX_SOUNDDATATYPE_MEMPRESS);
 
 	std::array<int, MaterialMax> MusicContainer;
 
-	MaterialLoadTemplate(MusicContainer, "mp3/", ".mp3", [](const std::string& Path) {return DxLib::LoadSoundMem(Path.c_str()); });
+	for (std::size_t i = 0; i < MaterialMax; i++)
+		MusicContainer[i] = DxLib::LoadSoundMem(Container[i].c_str());
 
 	return MusicContainer;
 }
@@ -126,6 +156,8 @@ int main(int argc, const char *argv[])
 		return -1;    // エラーが起きたら直ちに終了
 	}
 
+	std::array<std::string, MaterialMax> Container = AllFilePath();
+
 	// Create a frame where components will be rendered to.
 	cv::Mat frame = cv::Mat(180, 280, CV_8UC3);
 
@@ -135,7 +167,7 @@ int main(int argc, const char *argv[])
 	// Set Volumnes
 	double value = 100.0;
 
-	const std::array<int, MaterialMax> MusicContainer = LoadMusic();
+	const std::array<int, MaterialMax> MusicContainer = LoadMusic(Container);
 
 	std::int32_t Num = 0;
 
