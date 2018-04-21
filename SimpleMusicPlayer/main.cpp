@@ -158,6 +158,7 @@ int main(int argc, const char *argv[])
 		// Update cvui stuff and show everything on the screen
 		cvui::imshow(WindowName, frame);
 
+		// Exit to ESC Key!
 		if (cv::waitKey(20) == 27) {
 			break;
 		}
