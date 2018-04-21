@@ -30,7 +30,7 @@ namespace fs = boost::filesystem;
 // Set Software Title
 constexpr const char* WindowName = "Simple Music Player";
 
-//全ファイル名描画関数
+//Read All MP3 File Path
 std::vector<std::string> AllFilePath() {
 
 	std::vector<std::string> Container;
@@ -53,10 +53,10 @@ std::vector<std::string> AllFilePath() {
 	return Container;
 }
 
-// loading music
+// Loading music
 std::vector<int> LoadMusic(const std::vector<std::string> Container) {
 
-	//サウンドデータの読み込み形式
+	// Loading Sound Data Type Set
 	DxLib::SetCreateSoundDataType(DX_SOUNDDATATYPE_MEMPRESS);
 
 	std::vector<int> MusicContainer;
@@ -118,11 +118,11 @@ double VolumeTrackBar(cv::Mat frame, double value) {
 int main(int argc, const char *argv[])
 {
 
-	DxLib::SetNotWinFlag(TRUE);	// ウインドウ関連の処理を行わない
+	DxLib::SetNotWinFlag(TRUE);	// Do not draw Window for DxLib
 
-	if (DxLib::DxLib_Init() == -1)    // ＤＸライブラリ初期化処理
+	if (DxLib::DxLib_Init() == -1)    // DxLib Init!
 	{
-		return -1;    // エラーが起きたら直ちに終了
+		return -1;    // Error!
 	}
 
 	std::vector<std::string> Container = AllFilePath();
@@ -163,7 +163,7 @@ int main(int argc, const char *argv[])
 		}
 	}
 
-	DxLib::DxLib_End();        // ＤＸライブラリ使用の終了処理
+	DxLib::DxLib_End();        // DxLib End!
 
 	return 0;
 }
