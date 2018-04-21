@@ -52,7 +52,6 @@ std::vector<std::string> AllFilePath() {
 		fs::directory_iterator())) {
 		if (!fs::is_directory(p)) {
 			Container.emplace_back(std::move(Path + str + p.filename().string()));
-			std::cout << p.filename() << std::endl;
 			i++;
 		}
 	}
