@@ -46,14 +46,10 @@ std::vector<std::string> AllFilePath() {
 
 	const fs::path path(Path);
 
-	std::int32_t i = 0;
-
 	BOOST_FOREACH(const fs::path& p, std::make_pair(fs::directory_iterator(path),
 		fs::directory_iterator())) {
-		if (!fs::is_directory(p)) {
+		if (!fs::is_directory(p))
 			Container.emplace_back(std::move(Path + str + p.filename().string()));
-			i++;
-		}
 	}
 
 	return Container;
