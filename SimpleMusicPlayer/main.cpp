@@ -11,8 +11,10 @@
 
 namespace fs = boost::filesystem;
 
-// include openCV and standard library
+// include openCV
 #include <opencv2/opencv.hpp>
+
+// include standard library
 #include <string>
 #include <vector>
 #include <fstream>
