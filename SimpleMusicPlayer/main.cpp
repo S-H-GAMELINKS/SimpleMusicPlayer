@@ -92,7 +92,7 @@ int DrawButton(cv::Mat frame, std::int32_t Num, std::vector<int> MusicContainer)
 
 	if (cvui::button(frame, 200, 40, "Next") || DxLib::CheckHitKey(KEY_INPUT_RIGHT)) {
 
-		Num = (static_cast<unsigned int>(Num) == MusicContainer.size()) ? MusicContainer.size() : Num + 1;
+		Num = (static_cast<unsigned int>(Num) == MusicContainer.size()) ? MusicContainer.size() - 1 : Num + 1;
 
 		DxLib::StopSoundMem(MusicContainer[Num - 1]);
 		DxLib::PlaySoundMem(MusicContainer[Num], DX_PLAYTYPE_BACK);
