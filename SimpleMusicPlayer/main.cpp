@@ -70,7 +70,7 @@ std::vector<int> LoadMusic(const std::vector<std::string> Container) {
 // Draw button
 int DrawButton(cv::Mat frame, std::int32_t Num, std::vector<int> MusicContainer) {
 
-	if (cvui::button(frame, 20, 40, "Prev")) {
+	if (cvui::button(frame, 20, 40, "Prev") || DxLib::CheckHitKey(KEY_INPUT_LEFT)) {
 		if (Num == 0)
 			Num = 0;
 		else
@@ -82,19 +82,19 @@ int DrawButton(cv::Mat frame, std::int32_t Num, std::vector<int> MusicContainer)
 		return Num;
 	}
 
-	if (cvui::button(frame, 80, 40, "Play")) {
+	if (cvui::button(frame, 80, 40, "Play") || DxLib::CheckHitKey(KEY_INPUT_SPACE)) {
 		DxLib::PlaySoundMem(MusicContainer[Num], DX_PLAYTYPE_BACK);
 
 		return Num;
 	}
 
-	if (cvui::button(frame, 140, 40, "Stop")) {
+	if (cvui::button(frame, 140, 40, "Stop") || (DxLib::CheckHitKey(KEY_INPUT_SPACE) && DxLib::CheckSoundMem(MusicContainer[Num]))) {
 		DxLib::StopSoundMem(MusicContainer[Num]);
 
 		return Num;
 	}
 
-	if (cvui::button(frame, 200, 40, "Next")) {
+	if (cvui::button(frame, 200, 40, "Next") || DxLib::CheckHitKey(KEY_INPUT_RIGHT)) {
 		if (Num == MusicContainer.size())
 			Num = MusicContainer.size();
 		else
