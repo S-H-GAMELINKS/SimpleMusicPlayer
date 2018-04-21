@@ -108,7 +108,7 @@ int DrawButton(cv::Mat frame, std::int32_t Num, std::vector<int> MusicContainer)
 	}
 
 	if (cvui::button(frame, 200, 40, "Next") || DxLib::CheckHitKey(KEY_INPUT_RIGHT)) {
-		if (Num == MusicContainer.size())
+		if (static_cast<unsigned int>(Num) == MusicContainer.size())
 			Num = MusicContainer.size();
 		else
 			Num++;
