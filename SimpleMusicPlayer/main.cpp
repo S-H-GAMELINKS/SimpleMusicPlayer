@@ -118,8 +118,7 @@ double VolumeTrackBar(cv::Mat frame, double value) {
 	return value;
 }
 
-int main(int argc, const char *argv[])
-{
+int main(int argc, const char *argv[]) {
 
 	DxLib::SetNotWinFlag(TRUE);	// Do not draw Window for DxLib
 
