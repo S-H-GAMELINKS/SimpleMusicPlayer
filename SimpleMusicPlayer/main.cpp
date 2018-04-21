@@ -42,14 +42,14 @@ std::vector<std::string> AllFilePath() {
 
 	std::vector<std::string> Container;
 
-	std::string Path = "mp3", str = "/";
+	std::string Path = "mp3";
 
 	const fs::path path(Path);
 
 	BOOST_FOREACH(const fs::path& p, std::make_pair(fs::directory_iterator(path),
 		fs::directory_iterator())) {
 		if (!fs::is_directory(p))
-			Container.emplace_back(std::move(Path + str + p.filename().string()));
+			Container.emplace_back(std::move(p.filename().string()));
 	}
 
 	return Container;
@@ -61,10 +61,12 @@ std::vector<int> LoadMusic(const std::vector<std::string> Container) {
 	// Loading Sound Data Type Set
 	DxLib::SetCreateSoundDataType(DX_SOUNDDATATYPE_MEMPRESS);
 
+	std::string Path = "mp3/";
+
 	std::vector<int> MusicContainer;
 	
 	for (auto&& c : Container)
-		MusicContainer.emplace_back(std::move(DxLib::LoadSoundMem(c.c_str())));
+		MusicContainer.emplace_back(std::move(DxLib::LoadSoundMem((Path + c).c_str())));
 
 	return MusicContainer;
 }
@@ -149,7 +151,7 @@ int main(int argc, const char *argv[]) {
 		ChangeVolumeSoundMem(255 * static_cast<int>(value) / 100, MusicContainer[Num]);
 
 		if (DxLib::CheckSoundMem(MusicContainer[Num]) == 1)
-			cvui::text(frame, 40, 150, "Now Playing Number is " + Container[Num]);
+			cvui::text(frame, 40, 150, "Now Playing " + Container[Num]);
 
 		// Update cvui stuff and show everything on the screen
 		cvui::imshow(WindowName, frame);
