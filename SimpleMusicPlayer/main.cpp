@@ -25,7 +25,7 @@ namespace fs = boost::filesystem;
 #include "cvui.h"
 
 // Hide Console Window
-//#pragma comment(linker, "/subsystem:\"windows\" /entry:\"mainCRTStartup\"")
+#pragma comment(linker, "/subsystem:\"windows\" /entry:\"mainCRTStartup\"")
 
 // Set Software Title
 constexpr const char* WindowName = "Simple Music Player";
