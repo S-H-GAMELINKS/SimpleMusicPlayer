@@ -20,6 +20,8 @@ namespace fs = boost::filesystem;
 #include <fstream>
 #include <sstream>
 #include <iomanip>
+#include <thread>
+#include <chrono>
 
 // One (and only one) of your C++ files must define CVUI_IMPLEMENTATION
 // before the inclusion of cvui.h to ensure its implementaiton is compiled.
@@ -31,6 +33,9 @@ namespace fs = boost::filesystem;
 
 // Set Software Title
 constexpr const char* WindowName = "Simple Music Player";
+
+// Set Wait Time
+constexpr int WaitTime = 20;
 
 //Read All MP3 File Path
 std::vector<std::string> AllFilePath() {
@@ -81,17 +86,23 @@ int DrawButton(cv::Mat frame, std::int32_t Num, std::vector<int> MusicContainer)
 		DxLib::StopSoundMem(MusicContainer[Num + 1]);
 		DxLib::PlaySoundMem(MusicContainer[Num], DX_PLAYTYPE_BACK);
 
+		std::this_thread::sleep_for(std::chrono::milliseconds(WaitTime));
+
 		return Num;
 	}
 
 	if (cvui::button(frame, 80, 40, "Play") || DxLib::CheckHitKey(KEY_INPUT_SPACE)) {
 		DxLib::PlaySoundMem(MusicContainer[Num], DX_PLAYTYPE_BACK);
 
+		std::this_thread::sleep_for(std::chrono::milliseconds(WaitTime));
+
 		return Num;
 	}
 
 	if (cvui::button(frame, 140, 40, "Stop") || (DxLib::CheckHitKey(KEY_INPUT_SPACE) && DxLib::CheckSoundMem(MusicContainer[Num]))) {
 		DxLib::StopSoundMem(MusicContainer[Num]);
+
+		std::this_thread::sleep_for(std::chrono::milliseconds(WaitTime));
 
 		return Num;
 	}
@@ -104,6 +115,8 @@ int DrawButton(cv::Mat frame, std::int32_t Num, std::vector<int> MusicContainer)
 
 		DxLib::StopSoundMem(MusicContainer[Num - 1]);
 		DxLib::PlaySoundMem(MusicContainer[Num], DX_PLAYTYPE_BACK);
+
+		std::this_thread::sleep_for(std::chrono::milliseconds(WaitTime));
 
 		return Num;
 	}
@@ -120,6 +133,8 @@ double VolumeTrackBar(cv::Mat frame, double value) {
 
 	if (DxLib::CheckHitKey(KEY_INPUT_DOWN))
 		value--;
+
+	std::this_thread::sleep_for(std::chrono::milliseconds(WaitTime));
 
 	return value;
 }
