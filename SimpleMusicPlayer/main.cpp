@@ -153,10 +153,8 @@ int main(int argc, const char *argv[])
 
 		ChangeVolumeSoundMem(255 * static_cast<int>(value) / 100, MusicContainer[Num]);
 
-		if (DxLib::CheckSoundMem(MusicContainer[Num]) == 1) {
-			cvui::text(frame, 40, 150, "Now Playing Number is");
-			cvui::text(frame, 190, 150, Container[Num]);
-		}
+		if (DxLib::CheckSoundMem(MusicContainer[Num]) == 1)
+			cvui::text(frame, 40, 150, "Now Playing Number is " + Container[Num]);
 
 		// Update cvui stuff and show everything on the screen
 		cvui::imshow(WindowName, frame);
