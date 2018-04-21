@@ -112,6 +112,13 @@ int DrawButton(cv::Mat frame, std::int32_t Num, std::vector<int> MusicContainer)
 // Change Volumes
 double VolumeTrackBar(cv::Mat frame, double value) {
 	cvui::trackbar(frame, 40, 70, 220, &value, (double)0.0, (double)100.0);
+
+	if (DxLib::CheckHitKey(KEY_INPUT_UP))
+		value++;
+
+	if (DxLib::CheckHitKey(KEY_INPUT_DOWN))
+		value--;
+
 	return value;
 }
 
