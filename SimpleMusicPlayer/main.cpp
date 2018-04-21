@@ -99,7 +99,7 @@ int DrawButton(cv::Mat frame, std::int32_t Num, std::vector<int> MusicContainer)
 		return Num;
 	}
 
-	if (cvui::button(frame, 140, 40, "Stop") || (DxLib::CheckHitKey(KEY_INPUT_SPACE) && DxLib::CheckSoundMem(MusicContainer[Num]))) {
+	if (cvui::button(frame, 140, 40, "Stop") || DxLib::CheckHitKey(KEY_INPUT_BACK)) {
 		DxLib::StopSoundMem(MusicContainer[Num]);
 
 		std::this_thread::sleep_for(std::chrono::milliseconds(WaitTime));
