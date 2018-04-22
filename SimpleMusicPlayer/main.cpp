@@ -78,11 +78,11 @@ int DrawButton(cv::Mat frame, std::int32_t Num, std::vector<int> MusicContainer)
 		Num = (Num == 0) ? 0 : Num - 1;
 
 		DxLib::StopSoundMem(MusicContainer[Num + 1]);
-		DxLib::PlaySoundMem(MusicContainer[Num], DX_PLAYTYPE_BACK);
+		DxLib::PlaySoundMem(MusicContainer[Num], DX_PLAYTYPE_LOOP);
 	}
 
 	if (cvui::button(frame, 80, 40, "Play") || DxLib::CheckHitKey(KEY_INPUT_SPACE))
-		DxLib::PlaySoundMem(MusicContainer[Num], DX_PLAYTYPE_BACK);
+		DxLib::PlaySoundMem(MusicContainer[Num], DX_PLAYTYPE_LOOP);
 
 
 	if (cvui::button(frame, 140, 40, "Stop") || DxLib::CheckHitKey(KEY_INPUT_BACK))
@@ -93,7 +93,7 @@ int DrawButton(cv::Mat frame, std::int32_t Num, std::vector<int> MusicContainer)
 		Num = (static_cast<unsigned int>(Num) + 1 == MusicContainer.size()) ? MusicContainer.size() - 1 : Num + 1;
 
 		DxLib::StopSoundMem(MusicContainer[Num - 1]);
-		DxLib::PlaySoundMem(MusicContainer[Num], DX_PLAYTYPE_BACK);
+		DxLib::PlaySoundMem(MusicContainer[Num], DX_PLAYTYPE_LOOP);
 	}
 
 	std::this_thread::sleep_for(std::chrono::milliseconds(WaitTime));
