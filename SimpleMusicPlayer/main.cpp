@@ -105,11 +105,19 @@ int DrawButton(cv::Mat frame, std::int32_t Num, std::vector<int> MusicContainer)
 double VolumeTrackBar(cv::Mat frame, double value) {
 	cvui::trackbar(frame, 40, 70, 220, &value, (double)0.0, (double)100.0);
 
-	if (DxLib::CheckHitKey(KEY_INPUT_UP))
-		value = (value >= 100.0) ? 100.0 : value++;
+	if (DxLib::CheckHitKey(KEY_INPUT_UP)) {
+		if (value >= 100.0)
+			value = 100.0;
+		else
+			value++;
+	}
 
-	if (DxLib::CheckHitKey(KEY_INPUT_DOWN))
-		value = (value <= 0.0) ? 0.0 : value--;
+	if (DxLib::CheckHitKey(KEY_INPUT_DOWN)) {
+		if (value <= 0.0)
+			value = 0.0;
+		else
+			value--;
+	}
 
 	std::this_thread::sleep_for(std::chrono::milliseconds(WaitTime));
 
